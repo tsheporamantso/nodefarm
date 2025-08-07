@@ -2,18 +2,18 @@ const fs = require("fs");
 const http = require("http");
 const url = require("url");
 
+const data = fs.readFileSync(`${__dirname}/data/data.json`, "utf-8");
+// console.log(data);
+
 const server = http.createServer((req, res) => {
   const pathName = req.url;
   if (pathName === "/" || pathName === "overview") {
     res.end("This is OVERVIEW");
   } else if (pathName === "/api") {
-    fs.readFile(`${__dirname}/data/data.json`, "utf-8", (err, data) => {
-      if (err) {
-        throw new err();
-      } else {
-        res.end(data);
-      }
+    res.writeHead(200, {
+      "Content-type": "application/json",
     });
+    res.end(data);
   } else if (pathName === "/products") {
     res.end("This is PRODUCTS");
   } else {
